@@ -1,0 +1,653 @@
+﻿<ui:FluentWindow x:Class="ModLauncherPro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:local="clr-namespace:ModLauncherPro"
+        Title="Mod Launcher Pro" Height="680" Width="1060" MinHeight="560" MinWidth="860"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica"
+        WindowCornerPreference="Round"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid DataContext="{x:Static local:Loc.Instance}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- ÜST BAŞLIK ÇUBUĞU -->
+        <Grid Grid.Row="0">
+            <ui:TitleBar Title="Mod Launcher Pro"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,145,0">
+                <Button Content="❓" ToolTip="{Binding BtnHowToUse}" Click="OpenHelp_Click" Padding="8,4" Margin="0,0,6,0"/>
+                <Button Content="⚙" ToolTip="{Binding BtnSettings}" Click="Settings_Click" Padding="8,4"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- ==================== 1. KARŞILAMA EKRANI (BAŞLANGIÇ MENÜSÜ) ==================== -->
+        <Grid x:Name="WelcomeScreen" Grid.Row="1" Visibility="Visible">
+            <Border MaxWidth="460" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    CornerRadius="16" Padding="36,32" Background="#22FFFFFF">
+                <StackPanel HorizontalAlignment="Center">
+                    <!-- Logo İkonu -->
+                    <Border Width="76" Height="76" CornerRadius="20" HorizontalAlignment="Center" Margin="0,0,0,16">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#3B82F6" Offset="0"/>
+                                <GradientStop Color="#8B5CF6" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock Text="▶" FontSize="34" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                    </Border>
+
+                    <TextBlock Text="Mod Launcher" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding WelcomeSubtitle}" Foreground="Gray" FontSize="13"
+                               TextAlignment="Center" TextWrapping="Wrap" Margin="0,6,0,28"/>
+
+                    <ui:Button Content="{Binding BtnStart}" Appearance="Primary" FontSize="15" FontWeight="SemiBold"
+                               Width="260" Height="44" HorizontalAlignment="Center" Click="EnterDashboard_Click"/>
+
+                    <Button Content="{Binding BtnHowToUse}" FontSize="14"
+                            Width="260" Height="40" HorizontalAlignment="Center" Margin="0,12,0,0" Click="OpenHelp_Click"/>
+
+                    <Button Content="{Binding BtnSettings}" FontSize="14"
+                            Width="260" Height="40" HorizontalAlignment="Center" Margin="0,12,0,0" Click="Settings_Click"/>
+
+                    <TextBlock Text="v2.0 Pro" Foreground="Gray" FontSize="11" HorizontalAlignment="Center" Margin="0,24,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- ==================== 2. ANA ÇALIŞMA PANELİ (DASHBOARD) ==================== -->
+        <Grid x:Name="DashboardScreen" Grid.Row="1" Visibility="Collapsed" Margin="12,4,12,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="225"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- SOL SİDEBAR MENÜSÜ -->
+            <Border Grid.Column="0" CornerRadius="12" Background="#15FFFFFF" Padding="10" Margin="0,0,12,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <Button Content="{Binding NavHome}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Padding="12,10" Margin="0,0,0,12" Click="BackToWelcome_Click"/>
+
+                        <Separator Margin="0,0,0,12" Opacity="0.2"/>
+
+                        <Button x:Name="NavBtnModes" Content="{Binding NavModes}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Padding="12,10" Margin="0,0,0,6" Click="NavModes_Click"/>
+                        <Button x:Name="NavBtnStartup" Content="{Binding NavStartup}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Padding="12,10" Margin="0,0,0,6" Click="NavStartup_Click"/>
+                        <Button x:Name="NavBtnFavorites" Content="{Binding NavFavorites}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Padding="12,10" Margin="0,0,0,6" Click="NavFavorites_Click"/>
+                        <Button x:Name="NavBtnClock" Content="{Binding NavClock}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Padding="12,10" Margin="0,0,0,6" Click="NavClock_Click"/>
+                        <Button x:Name="NavBtnCalendar" Content="{Binding NavCalendar}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Padding="12,10" Margin="0,0,0,6" Click="NavCalendar_Click"/>
+                        <Button x:Name="NavBtnSystem" Content="{Binding NavSystem}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Padding="12,10" Margin="0,0,0,6" Click="NavSystem_Click"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1">
+                        <Button Content="{Binding BtnHowToUse}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Padding="12,9" Margin="0,0,0,6" Click="OpenHelp_Click"/>
+                        <Button Content="{Binding BtnSettings}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Padding="12,9" Click="Settings_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- SAĞ İÇERİK ALANI -->
+            <Border Grid.Column="1" CornerRadius="12" Background="#12FFFFFF" Padding="18">
+                <Grid>
+
+                    <!-- SEKME 1: MODLAR -->
+                    <Grid x:Name="ViewModes" Visibility="Visible">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0" Margin="0,0,14,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{Binding ModesHeader}" FontSize="18" FontWeight="Bold" Margin="4,0,0,10"/>
+
+                            <TreeView x:Name="ModeTree" Grid.Row="1" SelectedItemChanged="ModeTree_SelectedItemChanged">
+                                <TreeView.Resources>
+                                    <HierarchicalDataTemplate DataType="{x:Type local:Mode}" ItemsSource="{Binding Actions}">
+                                        <StackPanel Orientation="Horizontal" Margin="2">
+                                            <TextBlock Text="📁" Margin="0,0,6,0"/>
+                                            <Ellipse Width="10" Height="10" Margin="0,0,6,0" VerticalAlignment="Center" Fill="{Binding Color}"/>
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                                        </StackPanel>
+                                    </HierarchicalDataTemplate>
+                                    <DataTemplate DataType="{x:Type local:ModeAction}">
+                                        <StackPanel Orientation="Horizontal" Margin="2">
+                                            <TextBlock Text="{Binding Icon}" Margin="0,0,6,0"/>
+                                            <TextBlock Text="{Binding DisplayName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </TreeView.Resources>
+                            </TreeView>
+
+                            <ui:Button Grid.Row="2" Content="{Binding BtnNewMode}" Appearance="Primary"
+                                       Click="NewMode_Click" HorizontalAlignment="Stretch" Margin="0,10,0,0"/>
+                        </Grid>
+
+                        <Grid Grid.Column="1" Margin="8,0,0,0">
+                            <TextBlock x:Name="EmptyText" Text="{Binding EmptyModeHint}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray"/>
+
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <Grid Margin="0,0,8,0">
+                                    <!-- Mod Düzenleme -->
+                                    <StackPanel x:Name="ModePanel" Visibility="Collapsed">
+                                        <TextBlock Text="{Binding Source={x:Static local:Loc.Instance}, Path=LblModeName}" Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" LostFocus="Field_LostFocus"/>
+
+                                        <TextBlock Text="{Binding Source={x:Static local:Loc.Instance}, Path=LblColor}" Margin="0,14,0,6"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Hızlı Renk Paleti (Tıklanabilir baloncuklar) -->
+                                            <ItemsControl x:Name="ColorPaletteControl" Grid.Column="0">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate DataType="{x:Type local:ModeColor}">
+                                                        <Button Width="32" Height="32" Margin="0,0,6,6" Padding="0" Cursor="Hand"
+                        Click="PaletteColor_Click" Tag="{Binding Value}" ToolTip="{Binding Name}">
+                                                            <Button.Template>
+                                                                <ControlTemplate TargetType="Button">
+                                                                    <Grid>
+                                                                        <Ellipse Fill="{Binding Value}" Stroke="{Binding Value}" StrokeThickness="1"/>
+                                                                        <!-- Eğer seçiliyse üzerine beyaz bir halka çiz -->
+                                                                        <Ellipse Stroke="White" StrokeThickness="2" Margin="4" Opacity="0.5"/>
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Button.Template>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+
+                                            <!-- Özel HEX Kodu Girişi -->
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="8,0,0,0">
+                                                <TextBlock Text="Özel HEX:" FontSize="11" Foreground="Gray" Margin="0,0,0,4"/>
+                                                <ui:TextBox Text="{Binding Color, UpdateSourceTrigger=PropertyChanged}" 
+                    Width="85" MaxLength="7" LostFocus="Field_LostFocus"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <TextBlock Text="{Binding Source={x:Static local:Loc.Instance}, Path=LblHotkey}" Margin="0,14,0,4"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox x:Name="HotkeyBox" IsReadOnly="True"
+                                                     Text="{Binding Hotkey, Mode=OneWay}"
+                                                     PreviewKeyDown="HotkeyBox_PreviewKeyDown"/>
+                                            <Button Grid.Column="1" Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnClear}"
+                                                    Click="ClearHotkey_Click" Margin="8,0,0,0"/>
+                                        </Grid>
+                                        <TextBlock Text="{Binding Source={x:Static local:Loc.Instance}, Path=HotkeyHint}" Foreground="Gray" TextWrapping="Wrap" Margin="0,4,0,0"/>
+
+                                        <ui:Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnRunMode}" Appearance="Primary"
+                                                   Click="RunMode_Click" HorizontalAlignment="Stretch" Margin="0,16,0,0"/>
+
+                                        <WrapPanel Margin="0,14,0,0">
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnAddApp}" Click="AddApp_Click" Margin="0,0,8,8"/>
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnAddUrl}" Click="AddUrl_Click" Margin="0,0,8,8"/>
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnAddCloseApp}" Click="AddCloseApp_Click" Margin="0,0,8,8"/>
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnMoveUp}" Click="MoveUp_Click" Margin="0,0,8,8"/>
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnMoveDown}" Click="MoveDown_Click" Margin="0,0,8,8"/>
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnDelete}" Click="DeleteMode_Click" Margin="0,0,8,8"/>
+                                        </WrapPanel>
+                                    </StackPanel>
+
+                                    <!-- Eylem Düzenleme -->
+                                    <StackPanel x:Name="ActionPanel" Visibility="Collapsed">
+                                        <TextBlock Text="{Binding Source={x:Static local:Loc.Instance}, Path=LblTarget}" Margin="0,0,0,4"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Text="{Binding Target, UpdateSourceTrigger=PropertyChanged}" LostFocus="Field_LostFocus"/>
+                                            <Button x:Name="BrowseTargetButton" Grid.Column="1" Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnBrowse}"
+                                                    Click="BrowseTarget_Click" Margin="8,0,0,0"/>
+                                        </Grid>
+
+                                        <StackPanel x:Name="ArgsPanel" Margin="0,12,0,0">
+                                            <TextBlock Text="{Binding Source={x:Static local:Loc.Instance}, Path=LblArgs}" Margin="0,0,0,4"/>
+                                            <TextBox Text="{Binding Arguments, UpdateSourceTrigger=PropertyChanged}" LostFocus="Field_LostFocus"/>
+                                        </StackPanel>
+
+                                        <StackPanel x:Name="BrowserPanel" Margin="0,12,0,0">
+                                            <TextBlock Text="{Binding Source={x:Static local:Loc.Instance}, Path=LblBrowser}" Margin="0,0,0,4"/>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Text="{Binding BrowserPath, UpdateSourceTrigger=PropertyChanged}" LostFocus="Field_LostFocus"/>
+                                                <Button Grid.Column="1" Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnBrowse}"
+                                                        Click="BrowseBrowser_Click" Margin="8,0,0,0"/>
+                                            </Grid>
+                                        </StackPanel>
+
+                                        <StackPanel x:Name="ForcePanel" Margin="0,12,0,0">
+                                            <CheckBox Content="{Binding Source={x:Static local:Loc.Instance}, Path=ChkForceClose}"
+                                                      IsChecked="{Binding ForceClose, Mode=TwoWay}" Click="Field_LostFocus"/>
+                                        </StackPanel>
+
+                                        <WrapPanel Margin="0,16,0,0">
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnTestAction}" Click="TestAction_Click" Margin="0,0,8,8"/>
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnMoveUp}" Click="MoveUp_Click" Margin="0,0,8,8"/>
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnMoveDown}" Click="MoveDown_Click" Margin="0,0,8,8"/>
+                                            <Button Content="{Binding Source={x:Static local:Loc.Instance}, Path=BtnDelete}" Click="DeleteAction_Click" Margin="0,0,8,8"/>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+
+                    <!-- SEKME 2: MASAÜSTÜ BAŞLANGIÇ (AUTO-START) -->
+                    <Grid x:Name="ViewStartup" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Margin="0,0,0,14">
+                            <TextBlock Text="{Binding StartupTitle}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding StartupDesc}" Foreground="Gray" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <WrapPanel Grid.Row="1" Margin="0,0,0,12">
+                            <ui:Button Content="{Binding BtnAddApp}" Appearance="Primary" Click="AddStartupApp_Click" Margin="0,0,8,0"/>
+                            <Button Content="{Binding BtnAddUrl}" Click="AddStartupUrl_Click" Margin="0,0,8,0"/>
+                            <Button Content="{Binding BtnRunAllStartup}" Click="RunAllStartup_Click"/>
+                        </WrapPanel>
+
+                        <ListBox x:Name="StartupList" Grid.Row="2">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type local:ModeAction}">
+                                    <Grid Margin="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="220"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Icon}" FontSize="18" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                        <TextBox Grid.Column="1" Text="{Binding CustomName, UpdateSourceTrigger=PropertyChanged}"
+                                                 ToolTip="İsim / Name" Margin="0,0,8,0" LostFocus="Field_LostFocus"/>
+                                        <TextBox Grid.Column="2" Text="{Binding Target, UpdateSourceTrigger=PropertyChanged}"
+                                                 Margin="0,0,8,0" LostFocus="Field_LostFocus"/>
+                                        <Button Grid.Column="3" Content="🗑" Click="RemoveStartupItem_Click" Tag="{Binding}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+
+                    <!-- SEKME 3: FAVORİ UYGULAMALAR VE SİTELER -->
+                    <Grid x:Name="ViewFavorites" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Margin="0,0,0,14">
+                            <TextBlock Text="{Binding FavoritesTitle}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding FavoritesDesc}" Foreground="Gray" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <WrapPanel Grid.Row="1" Margin="0,0,0,14">
+                            <ui:Button Content="{Binding BtnAddApp}" Appearance="Primary" Click="AddFavApp_Click" Margin="0,0,8,0"/>
+                            <Button Content="🌐 + Site (URL)" Click="AddFavUrl_Click" Margin="0,0,8,0"/>
+                            <ui:TextBox x:Name="FavUrlInput" Width="280" PlaceholderText="https://..." VerticalAlignment="Center"/>
+                        </WrapPanel>
+
+                        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl x:Name="FavoritesGrid">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type local:ModeAction}">
+                                        <Border Width="200" Margin="0,0,12,12" Padding="14" CornerRadius="12" Background="#1EFFFFFF">
+                                            <StackPanel>
+                                                <Grid>
+                                                    <TextBlock Text="{Binding Icon}" FontSize="26"/>
+                                                    <Button Content="✕" HorizontalAlignment="Right" Padding="6,2"
+                                                            Click="RemoveFavItem_Click" Tag="{Binding}"/>
+                                                </Grid>
+                                                <TextBox Text="{Binding CustomName, UpdateSourceTrigger=PropertyChanged}"
+                                                         FontWeight="SemiBold" Margin="0,8,0,4" LostFocus="Field_LostFocus"/>
+                                                <TextBlock Text="{Binding Target}" Foreground="Gray" FontSize="11"
+                                                           TextTrimming="CharacterEllipsis" Margin="0,0,0,10"/>
+                                                <ui:Button Content="▶ Aç / Open" Appearance="Primary" HorizontalAlignment="Stretch"
+                                                           Click="LaunchFavItem_Click" Tag="{Binding}"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+
+                    <!-- SEKME 4: SAAT (ZAMANLAYICI & KRONOMETRE) -->
+                    <Grid x:Name="ViewClock" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- SOL: ZAMANLAYICI (GERİ SAYIM) -->
+                        <Border Grid.Column="0" CornerRadius="12" Background="#19FFFFFF" Padding="20" Margin="0,0,8,0">
+                            <StackPanel>
+                                <TextBlock Text="{Binding TimerTitle}" FontSize="18" FontWeight="Bold"/>
+
+                                <TextBlock x:Name="TimerDisplay" Text="01:00:00" FontSize="52" FontWeight="Bold"
+                                           HorizontalAlignment="Center" Margin="0,20,0,20"/>
+
+                                <!-- Hızlı Süre Seçimi -->
+                                <WrapPanel HorizontalAlignment="Center" Margin="0,0,0,12">
+                                    <Button Content="25 dk" Click="QuickTimer_Click" Tag="25" Margin="4"/>
+                                    <Button Content="45 dk" Click="QuickTimer_Click" Tag="45" Margin="4"/>
+                                    <Button Content="1 Saat" Click="QuickTimer_Click" Tag="60" Margin="4"/>
+                                    <Button Content="2 Saat" Click="QuickTimer_Click" Tag="120" Margin="4"/>
+                                </WrapPanel>
+
+                                <!-- Saat / Dakika / Saniye Girişi -->
+                                <Grid Margin="0,4,0,14">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Margin="4">
+                                        <TextBlock Text="{Binding LblHours}" FontSize="12" Foreground="Gray"/>
+                                        <TextBox x:Name="TimerHoursBox" Text="1"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Margin="4">
+                                        <TextBlock Text="{Binding LblMinutes}" FontSize="12" Foreground="Gray"/>
+                                        <TextBox x:Name="TimerMinutesBox" Text="0"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Margin="4">
+                                        <TextBlock Text="{Binding LblSeconds}" FontSize="12" Foreground="Gray"/>
+                                        <TextBox x:Name="TimerSecondsBox" Text="0"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Bitmeden X dk önce uyar -->
+                                <TextBlock Text="{Binding LblAlertBefore}" FontSize="12" Foreground="Gray" Margin="4,0,0,4"/>
+                                <ComboBox x:Name="AlertMinutesBox" SelectedIndex="1" Margin="4,0,4,18" SelectionChanged="AlertMinutesBox_SelectionChanged">
+                                    <ComboBoxItem Content="1 dk / min" Tag="1"/>
+                                    <ComboBoxItem Content="5 dk / min" Tag="5"/>
+                                    <ComboBoxItem Content="10 dk / min" Tag="10"/>
+                                    <ComboBoxItem Content="15 dk / min" Tag="15"/>
+                                </ComboBox>
+
+                                <WrapPanel HorizontalAlignment="Center">
+                                    <ui:Button Content="{Binding BtnStartTimer}" Appearance="Primary" Width="110" Margin="4" Click="StartTimer_Click"/>
+                                    <Button Content="{Binding BtnPause}" Width="100" Margin="4" Click="PauseTimer_Click"/>
+                                    <Button Content="{Binding BtnReset}" Width="100" Margin="4" Click="ResetTimer_Click"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- SAĞ: KRONOMETRE (İLERİ SAYIM) -->
+                        <Border Grid.Column="1" CornerRadius="12" Background="#19FFFFFF" Padding="20" Margin="8,0,0,0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding StopwatchTitle}" FontSize="18" FontWeight="Bold"/>
+
+                                <TextBlock x:Name="StopwatchDisplay" Grid.Row="1" Text="00:00:00.0" FontSize="48" FontWeight="Bold"
+                                           HorizontalAlignment="Center" Margin="0,20,0,20"/>
+
+                                <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,0,14">
+                                    <ui:Button Content="{Binding BtnStartTimer}" Appearance="Primary" Width="105" Margin="4" Click="StartStopwatch_Click"/>
+                                    <Button Content="{Binding BtnPause}" Width="100" Margin="4" Click="PauseStopwatch_Click"/>
+                                    <Button Content="{Binding BtnLap}" Width="90" Margin="4" Click="LapStopwatch_Click"/>
+                                    <Button Content="{Binding BtnReset}" Width="90" Margin="4" Click="ResetStopwatch_Click"/>
+                                </WrapPanel>
+
+                                <ListBox x:Name="LapList" Grid.Row="3"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!-- SEKME 5: TAKVİM & YAPILACAKLAR LİSTESİ -->
+                    <Grid x:Name="ViewCalendar" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.15*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- SOL: SINAV VE ETKİNLİK TAKVİMİ -->
+                        <Border Grid.Column="0" CornerRadius="12" Background="#19FFFFFF" Padding="16" Margin="0,0,8,0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding CalendarTitle}" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                <Calendar x:Name="EventCalendar" Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+                                <Grid Grid.Row="2" Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ui:TextBox x:Name="EventTitleBox" PlaceholderText="Örn: Elektrik Devreleri Vizesi"/>
+                                    <ui:Button Grid.Column="1" Content="{Binding BtnAddEvent}" Appearance="Primary"
+                                               Margin="8,0,0,0" Click="AddCalendarEvent_Click"/>
+                                </Grid>
+
+                                <ListBox x:Name="CalendarEventsList" Grid.Row="3">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type local:CalendarEvent}">
+                                            <Grid Margin="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="95"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding DateString}" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" Margin="6,0"/>
+                                                <Border Grid.Column="2" CornerRadius="6" Background="#333B82F6" Padding="8,3" Margin="6,0">
+                                                    <TextBlock Text="{Binding DaysLeftText}" FontSize="12" FontWeight="SemiBold"/>
+                                                </Border>
+                                                <Button Grid.Column="3" Content="🗑" Padding="6,2" Click="RemoveCalendarEvent_Click" Tag="{Binding}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </Border>
+
+                        <!-- SAĞ: YAPILACAKLAR LİSTESİ (TO-DO) -->
+                        <Border Grid.Column="1" CornerRadius="12" Background="#19FFFFFF" Padding="16" Margin="8,0,0,0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding TodoTitle}" FontSize="18" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                                <Grid Grid.Row="1" Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ui:TextBox x:Name="TodoInputBox" PlaceholderText="{Binding LblNewTodo}" KeyDown="TodoInputBox_KeyDown"/>
+                                    <ui:Button Grid.Column="1" Content="{Binding BtnAddTodo}" Appearance="Primary"
+                                               Margin="8,0,0,0" Click="AddTodo_Click"/>
+                                </Grid>
+
+                                <ListBox x:Name="TodoList" Grid.Row="2">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type local:TodoItem}">
+                                            <Grid Margin="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox Content="{Binding Title}" IsChecked="{Binding IsDone, Mode=TwoWay}"
+                                                          Click="Field_LostFocus" VerticalAlignment="Center"/>
+                                                <Button Grid.Column="1" Content="🗑" Padding="6,2" Click="RemoveTodo_Click" Tag="{Binding}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!-- SEKME 6: HIZLI SİSTEM KONTROLÜ (SES, WI-FI, BLUETOOTH, GECE IŞIĞI) -->
+                    <Grid x:Name="ViewSystem" Visibility="Collapsed">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock Text="{Binding SysControlTitle}" FontSize="20" FontWeight="Bold" Margin="0,0,0,16"/>
+
+                                <!-- Ses Kontrol Kartı -->
+                                <Border CornerRadius="12" Background="#19FFFFFF" Padding="18" Margin="0,0,0,14">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,10">
+                                            <TextBlock Text="{Binding SysVolume}" FontSize="16" FontWeight="SemiBold"/>
+                                            <TextBlock x:Name="VolumePercentText" Text="50%" HorizontalAlignment="Right" FontWeight="Bold"/>
+                                        </Grid>
+                                        <Slider x:Name="VolumeSlider" Minimum="0" Maximum="100" ValueChanged="VolumeSlider_ValueChanged"/>
+                                        <Button Content="{Binding BtnMute}" HorizontalAlignment="Left" Margin="0,8,0,0" Click="MuteVolume_Click"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Wi-Fi & Bluetooth Kartları -->
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0" CornerRadius="12" Background="#19FFFFFF" Padding="18" Margin="0,0,7,0">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding SysWifi}" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                            <WrapPanel>
+                                                <ui:Button Content="{Binding BtnEnable}" Appearance="Primary" Margin="0,0,8,8" Click="WifiOn_Click"/>
+                                                <Button Content="{Binding BtnDisable}" Margin="0,0,8,8" Click="WifiOff_Click"/>
+                                                <Button Content="{Binding BtnOpenWinSettings}" Margin="0,0,0,8" Click="WifiSettings_Click"/>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Grid.Column="1" CornerRadius="12" Background="#19FFFFFF" Padding="18" Margin="7,0,0,0">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding SysBluetooth}" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                            <WrapPanel>
+                                                <ui:Button Content="{Binding BtnEnable}" Appearance="Primary" Margin="0,0,8,8" Click="BluetoothOn_Click"/>
+                                                <Button Content="{Binding BtnOpenWinSettings}" Margin="0,0,0,8" Click="BluetoothSettings_Click"/>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Gece Işığı & Ekran Göz Koruma Kartı -->
+                                <Border CornerRadius="12" Background="#19FFFFFF" Padding="18">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding SysNightLight}" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                        <CheckBox x:Name="NightFilterCheck" Content="{Binding ChkScreenDimmer}"
+                                                  Checked="NightFilter_Changed" Unchecked="NightFilter_Changed" Margin="0,0,0,10"/>
+                                        <Slider x:Name="NightFilterSlider" Minimum="0.1" Maximum="0.6" Value="0.25"
+                                                ValueChanged="NightFilterSlider_ValueChanged" Margin="0,0,0,12"/>
+                                        <Button Content="🌙 Windows Gece Işığı Ayarlarını Aç / Night Light Settings"
+                                                HorizontalAlignment="Left" Click="NightLightSettings_Click"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ==================== 3. NASIL KULLANILIR (?) REHBER KATMANI ==================== -->
+        <Grid x:Name="HelpOverlay" Grid.Row="1" Background="#D90F172A" Visibility="Collapsed">
+            <Border MaxWidth="680" MaxHeight="520" CornerRadius="16" Background="#1E293B" Padding="28" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="{Binding HowToUseHeader}" FontSize="22" FontWeight="Bold" Margin="0,0,0,14"/>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBlock Text="📁 1. Modlar (Modes)" FontWeight="Bold" FontSize="15" Margin="0,6,0,2"/>
+                            <TextBlock Text="Ders veya Oyun gibi modlar oluşturup içine birden fazla uygulama, web sitesi veya kapatılacak program ekleyebilirsin. Kısayol tuşu atayarak tek tuşla tüm çalışma ortamını başlatabilirsin." TextWrapping="Wrap" Foreground="#CBD5E1" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="🚀 2. Masaüstü Başlangıç (Desktop Startup)" FontWeight="Bold" FontSize="15" Margin="0,6,0,2"/>
+                            <TextBlock Text="Bilgisayarın açıldığında otomatik olarak başlamasını istediğin uygulama ve siteleri buraya ekle. Ayarlardan 'Windows ile birlikte başlat' seçeneğini açman yeterlidir." TextWrapping="Wrap" Foreground="#CBD5E1" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="⭐ 3. Favoriler (Favorites)" FontWeight="Bold" FontSize="15" Margin="0,6,0,2"/>
+                            <TextBlock Text="Sık kullandığın uygulama ve siteleri kartlar halinde elinin altında tutar, tek tıkla anında açar." TextWrapping="Wrap" Foreground="#CBD5E1" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="⏱️ 4. Saat: Zamanlayıcı &amp; Kronometre" FontWeight="Bold" FontSize="15" Margin="0,6,0,2"/>
+                            <TextBlock Text="Geri sayım sayacı ile çalışma veya oyun süreni belirle; süre bitmeden seçtiğin dakika (1, 5, 10, 15 dk) önce ve süre dolduğunda sesli bildirim al. Kronometre ile geçen süreni ve turlarını takip et." TextWrapping="Wrap" Foreground="#CBD5E1" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="📅 5. Takvim &amp; Yapılacaklar (Calendar &amp; To-Do)" FontWeight="Bold" FontSize="15" Margin="0,6,0,2"/>
+                            <TextBlock Text="Sınav tarihlerini takvime kaydet, sınava kaç gün kaldığını otomatik gör. Sağ taraftaki listeyle günlük görevlerini takip et." TextWrapping="Wrap" Foreground="#CBD5E1" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="🎛️ 6. Hızlı Kontrol (Quick Control)" FontWeight="Bold" FontSize="15" Margin="0,6,0,2"/>
+                            <TextBlock Text="Uygulamadan çıkmadan ana ses seviyesini değiştir, Wi-Fi ve Bluetooth'u yönet veya gece çalışırken göz yorgunluğunu azaltan sıcak ekran filtresini aç." TextWrapping="Wrap" Foreground="#CBD5E1"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <ui:Button Grid.Row="2" Content="Tamam / Got It" Appearance="Primary" HorizontalAlignment="Right"
+                               Margin="0,16,0,0" Width="140" Click="CloseHelp_Click"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+    </Grid>
+</ui:FluentWindow>

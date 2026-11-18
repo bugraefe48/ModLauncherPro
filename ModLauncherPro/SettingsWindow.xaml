@@ -1,0 +1,76 @@
+﻿<ui:FluentWindow x:Class="ModLauncherPro.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:local="clr-namespace:ModLauncherPro"
+        Title="{Binding Source={x:Static local:Loc.Instance}, Path=SettingsHeader}"
+        Height="650" Width="540" MinHeight="480" MinWidth="460"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica"
+        WindowCornerPreference="Round"
+        WindowStartupLocation="CenterOwner">
+    <Grid DataContext="{x:Static local:Loc.Instance}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Grid.Row="0" Title="{Binding SettingsHeader}"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="24,10,24,24">
+
+                <TextBlock Text="{Binding LblLanguage}" FontWeight="Bold" FontSize="15" Margin="0,0,0,6"/>
+                <ComboBox x:Name="LanguageBox" HorizontalAlignment="Stretch"
+                          SelectionChanged="LanguageBox_SelectionChanged">
+                    <ComboBoxItem Content="Türkçe"/>
+                    <ComboBoxItem Content="English"/>
+                </ComboBox>
+
+                <TextBlock Text="{Binding LblTheme}" FontWeight="Bold" FontSize="15" Margin="0,20,0,6"/>
+                <ComboBox x:Name="ThemeBox" HorizontalAlignment="Stretch"
+                          SelectionChanged="ThemeBox_SelectionChanged">
+                    <ComboBoxItem Content="{Binding ThemeSystem}"/>
+                    <ComboBoxItem Content="{Binding ThemeDark}"/>
+                    <ComboBoxItem Content="{Binding ThemeLight}"/>
+                </ComboBox>
+
+                <TextBlock Text="{Binding LblDefaultBrowser}" FontWeight="Bold" FontSize="15" Margin="0,20,0,6"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="BrowserBox" DisplayMemberPath="Name" SelectedValuePath="Path"
+                              HorizontalAlignment="Stretch"
+                              SelectionChanged="BrowserBox_SelectionChanged"/>
+                    <Button Grid.Column="1" Content="{Binding BtnBrowse}" Margin="8,0,0,0"
+                            Click="BrowseBrowser_Click"/>
+                </Grid>
+
+                <CheckBox x:Name="ConfirmBox" Content="{Binding ChkConfirmRun}" Margin="0,20,0,0"
+                          Checked="Confirm_Changed" Unchecked="Confirm_Changed"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0,14,0,4">
+                    <TextBlock Text="{Binding LblDelay}"/>
+                    <TextBlock x:Name="DelayText" Text="500 ms" FontWeight="SemiBold"/>
+                </StackPanel>
+                <Slider x:Name="DelaySlider" Minimum="0" Maximum="3000"
+                        TickFrequency="100" IsSnapToTickEnabled="True"
+                        ValueChanged="DelaySlider_ValueChanged"/>
+
+                <CheckBox x:Name="TrayBox" Content="{Binding ChkTray}" Margin="0,20,0,0"
+                          Checked="Tray_Changed" Unchecked="Tray_Changed"/>
+                <CheckBox x:Name="StartupBox" Content="{Binding ChkStartup}" Margin="0,8,0,0"
+                          Checked="Startup_Changed" Unchecked="Startup_Changed"/>
+
+                <TextBlock Text="{Binding LblBackup}" FontWeight="Bold" FontSize="15" Margin="0,24,0,8"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="{Binding BtnExport}" Click="Export_Click" Margin="0,0,10,0"/>
+                    <Button Content="{Binding BtnImport}" Click="Import_Click"/>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</ui:FluentWindow>
